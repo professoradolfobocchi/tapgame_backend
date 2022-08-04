@@ -174,7 +174,7 @@ module.exports = {
             res.json({error: 'Usuário inválido!'});
             return;
         }
-        res.json({user});
+        res.json(user);
     },
     highScore: async (req, res) => {
         const user = await User.findOne({ranking: {$gt: 0, $ne: 0}})
