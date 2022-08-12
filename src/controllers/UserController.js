@@ -168,12 +168,25 @@ module.exports = {
         //const id = req.params.id;
         //const user = await User.findById(id).exec();
         const nick = req.params.nick;
-        const user = await User.findOne( { nick })
+        let user = await User.findOne( { nick })
         .select({nick: 1, avatar: 1, ranking: 1, score: 1, _id: 0})
         .exec();
         if(!user) {
-            res.json({error: 'Usuário inválido!'});
-            return;
+           
+            const newUser = new User(
+                {
+                    avatar:'', 
+                    nome:'', 
+                    nick, 
+                    email: '', 
+                    password: '', 
+                    score: 0, 
+                    ranking: 0, 
+                    timeGame: '00:00:00', 
+                    conquistas: [] 
+                }
+            );
+            user = await newUser.save();
         }
         res.json(user);
     },
